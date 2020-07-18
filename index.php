@@ -12,7 +12,7 @@
     <div class="phpCode">
         <pre>
             <?php
-            $str = "Привет, Анд     feрей!";
+            $str = "Привет, Анд feрей!";
             $newStr = mb_split($str, 'UTF-8');
             print_r($newStr);
             ?>
