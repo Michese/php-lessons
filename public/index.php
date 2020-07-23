@@ -1,24 +1,19 @@
+﻿<?php
+require_once("../config/config.php");
+?>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title><?= SITE_TITLE ?></title>
 </head>
 <body>
 <main>
-    <div class="phpCode">
-        <pre>
-            <?php
-            $str = "Привет, Андрей!";
-            $newStr = mb_split($str, 'UTF-8');
-            print_r($newStr);
-            ?>
-        </pre>
-    </div>
+
 </main>
-<footer></footer>
 </body>
 </html>
