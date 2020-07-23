@@ -97,4 +97,19 @@ function _makeDir($dir, $is_root = true, $root = '')
     }
     return $root;
 }
+
+function renderImages()
+{
+    $images = scandir(IMG_DIR, true);
+    $rel = "/^([a-zA-Z0-9]|\-|\_){0,50}\.(jp?g|svg|png)$/";
+    $images = preg_grep($rel, $images);
+    foreach ($images as $value) {
+        echo "<a href='". IMG_DIR. "/" . $value . "' class='product product_image_a'>";
+        echo "<img src='". IMG_DIR. "/" . $value . "' class='product_image'>";
+        echo "</a>";
+    }
+}
+
 ?>
+
+
