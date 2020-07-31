@@ -70,8 +70,23 @@ function getAssocResult($sql){
 	return $array_result;
 }
 
-function executeQuery($sql){
+function getConnection() {
     $db = mysqli_connect(HOST, USER_DB, PASS_DB, DB);
+
+    if(mysqli_connect_errno()) {
+        printf("Ошибочка с соединением возникла: \n" . mysqli_connect_error());
+    }
+
+    mysqli_query($db, "set names utf8");
+
+    return $db;
+}
+
+function executeQuery($sql, $db = null){
+    if($db == null) {
+        $db = getConnection();
+    }
+
 	$result = mysqli_query($db, $sql);
     mysqli_close($db);
 	return $result;

@@ -93,6 +93,36 @@ function prepareVariables($page_name)
             $vars["title"] = "Большая картинка";
             $vars["big_image"] = getImage($_GET["id_gallery"]);
             break;
+        case "calculator1":
+        case "calculator3":
+            if (isset($_POST["operand1"]) && isset($_POST["operand2"]) && ($_POST["operand1"] !== "" || $_POST["operand2"] !== "")) {
+                $vars["answer"] = getAnswer($_POST["operand1"], $_POST["operand2"], $_POST["operation"]);
+            } else {
+                $vars["answer"] = "Произведите операцию";
+            }
+            break;
+        case "reviews":
+            if (isset($_POST["name"]) && isset($_POST["text"]) && $_POST["name"] !== "" && $_POST["text"] !== "") {
+                $vars["response"] = addReview($_POST["name"], $_POST["text"]);
+            } else {
+                $vars["response"] = " ";
+            }
+
+            $vars["title"] = "Отзывы";
+            if (empty(getReviews())) {
+                $vars["reviews"] = "Добавте первый отзыв";
+            } else {
+                $vars["reviews"] = getReviews();
+            }
+            break;
+        case "goods":
+            $vars["title"] = "Товары";
+            $vars["render_products"] = getGoods();
+            break;
+        case "product":
+            $vars["title"] = "Страница товара";
+            $vars["render_product"] = getProduct($_GET["id_goods"]);
+            break;
 //        default:
 //            echo $page_name . "<br>";
 //            exit();
@@ -198,7 +228,8 @@ function getGallery()
     return $gallery;
 }
 
-function setIncrementViewsImage($id_image) {
+function setIncrementViewsImage($id_image)
+{
     $id_image = (int)$id_image;
     $sql = "SELECT name_gallery, dir_gallery, views_gallery FROM gallery WHERE id_gallery = " . $id_image;
     $image = getAssocResult($sql);
@@ -221,6 +252,88 @@ function getImage($id_image)
     return $result;
 }
 
+function getAnswer($operand1, $operand2, $operation)
+{
+    if ($operand1 == "") {
+        $operand1 = 0.0;
+    } else {
+        $operand1 = (float)$operand1;
+    }
+
+    if ($operand2 == "") {
+        $operand2 = 0.0;
+    } else {
+        $operand2 = (float)$operand2;
+    }
+
+    $result = 0.0;
+    switch ($operation) {
+        case '+':
+            $result = $operand1 + $operand2;
+            break;
+        case '-':
+            $result = $operand1 - $operand2;
+            break;
+        case '/':
+            if ($operand2 === 0.0) {
+                $result = "Ой-ой-ой, на нуль делить нельзя!";
+            } else {
+                $result = $operand1 / $operand2;
+            }
+            break;
+        case '*':
+            $result = $operand1 * $operand2;
+            break;
+    }
+
+    return $result;
+}
+
+function addReview($userName, $text)
+{
+    $result = false;
+    $response = "";
+
+    $db = getConnection();
+    $userName_string = mysqli_real_escape_string($db, (string)htmlspecialchars(strip_tags($userName)));
+    $text_string = mysqli_real_escape_string($db, (string)htmlspecialchars(strip_tags($text)));
+    $sql = "insert into reviews (user_name_reviews, text_reviews) values ('$userName_string', '$text_string')";
+    $result = executeQuery($sql, $db);
+
+    if ($result) {
+        $response = "Отзыв добавлен!";
+    } else {
+        $response = "Произошла ошибка, отзыв не добавлен.";
+    }
+
+    return $response;
+}
+
+function getReviews()
+{
+    $sql = "select * from reviews";
+    $result = getAssocResult($sql);
+    return $result;
+}
+
+function getGoods() {
+    $sql = "select * from goods";
+    $goods = getAssocResult($sql);
+    return $goods;
+}
+
+function getProduct($id_goods) {
+    $id_goods = (int)$id_goods;
+    $sql = "select * from goods where id_goods=".$id_goods;
+    $product = getAssocResult($sql);
+
+    $result = [];
+    if(isset($product[0])){
+        $result[0] = $product[0];
+    }
+
+    return $result;
+}
 ?>
 
 

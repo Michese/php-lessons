@@ -18,12 +18,22 @@ footer {
 }
 
 input, textarea {
+  font-size: 24px;
   padding: 5px;
   margin: 5px 0 5px 0;
 }
 
-input[type=submit] {
+input[type=submit], input[type=button] {
+  font-size: 24px;
   padding: 3px 5px 3px 5px;
+  margin: 5px;
+  min-width: 60px;
+}
+
+.buttons {
+  display: flex;
+  width: 200px;
+  flex-wrap: wrap;
 }
 
 .products {
@@ -63,13 +73,28 @@ input[type=submit] {
   color: magenta;
 }
 
-h1 {
+h1, h2, h3 {
   margin: 10px 0 10px 0;
   text-align: center;
 }
 
 ol, ul {
   padding-left: 20px;
+}
+
+p {
+  margin: 5px;
+}
+
+.reviews {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
 }
 
 /*# sourceMappingURL=style.css.map */

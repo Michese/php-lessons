@@ -9,13 +9,17 @@
     <title>Hello</title>
 </head>
 <body>
-<h1>
-    Hello, World!
-</h1>
-<p>
-    <a href="../gallery/">gallery</a>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, enim error in ipsa itaque omnis perferendis
-    placeat praesentium sed voluptas.
-</p>
+<main>
+    <h1>
+        Hello, World!
+    </h1>
+    <ul>
+        <li><a href="../gallery/">gallery</a></li>
+        <li><a href="../calculator1/">calculator1</a></li>
+        <li><a href="../calculator3/">calculator2</a></li>
+        <li><a href="../reviews/">reviews</a></li>
+        <li><a href="../goods/">Goods</a></li>
+    </ul>
+</main>
 </body>
 </html>
