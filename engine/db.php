@@ -30,7 +30,7 @@ function updateDB($db_table, $name_column, $id_row, $value) {
     $result = false;
     $db = mysqli_connect(HOST, USER_DB, PASS_DB, DB);
     $query = "update $db_table set $name_column='$value' where id_$db_table=$id_row";
-    mysqli_query($db, $query);
+    $result = mysqli_query($db, $query);
     mysqli_close($db);
     return $result;
 }
@@ -91,4 +91,3 @@ function executeQuery($sql, $db = null){
     mysqli_close($db);
 	return $result;
 }
-?>

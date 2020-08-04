@@ -2,8 +2,12 @@
   margin: 0
   padding: 0
 
+header
+  margin: 0 calc(50% - 700px)
+  justify-content: space-between
+
 main
-  margin: 0 calc(50% - 450px)
+  margin: 0 calc(50% - 600px)
 
 footer
   height: 100px
@@ -19,6 +23,7 @@ input, textarea
   margin: 5px 0 5px 0
 
 input[type='submit'], input[type='button']
+  cursor: pointer
   font-size: 24px
   padding: 3px 5px 3px 5px
   margin: 5px
@@ -55,7 +60,7 @@ input[type='submit'], input[type='button']
   max-height: 300px
 
 .product_content
-  margin: 5px 0
+  margin: 5px
   font-size: 15px
   word-wrap: break-word
   color: magenta
@@ -78,3 +83,35 @@ p
 .review
   display: flex
   flex-direction: column
+
+form.cart__item
+  border: magenta solid 2px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 15px
+  margin: 8px 0
+  &>img
+    cursor: pointer
+
+.cart__delete
+  display: flex
+  flex-direction: column
+
+.menu
+  display: flex
+  align-items: center
+  justify-content: space-around
+  margin: 15px 5px
+
+.menu__link
+  color: #000000
+  padding: 5px
+  border-radius: 5px
+  background-color: #cc0088
+  transition: linear 0.2s
+  text-decoration: none
+  margin: 10px
+  &:hover
+    background-color: #9900ff
+    color: #ffffff

@@ -10,6 +10,14 @@
 </head>
 <body>
 <main>
+    <header>
+        <ul class="menu">
+            <li><a href="/index/" class="menu__link">Главная</a></li>
+            <li><a href="/gallery/" class="menu__link">Галлерея</a></li>
+            <li><a href="/goods/" class="menu__link">Товары</a></li>
+            <li><a href="/cart/" class="menu__link">Корзина</a></li>
+        </ul>
+    </header>
     <form method="post" class="form">
         <input type="number" name="operand1">
         <select name="operation">

@@ -10,6 +10,19 @@
     <title>{{TITLE}}</title>
 </head>
 <body>
-{{RENDER_PRODUCT}}
+<header>
+    <ul class="menu">
+        <li><a href="/index/" class="menu__link">Главная</a></li>
+        <li><a href="/gallery/" class="menu__link">Галлерея</a></li>
+        <li><a href="/goods/" class="menu__link">Товары</a></li>
+        <li><a href="/cart/" class="menu__link">Корзина</a></li>
+        <li><a href="/reviews/" class="menu__link">Отзывы</a></li>
+    </ul>
+</header>
+<main>
+    {{RENDER_PRODUCT}}
+    <p class="product_content">{{RESPONSE}}</p>
+</main>
+
 </body>
 </html>

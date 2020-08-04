@@ -7,7 +7,7 @@ define('ERROR_TEMPLATE_EMPTY', 2);
 /*
 * Обрабатывает указанный шаблон, подставляя нужные переменные
 */
-function renderPage($page_name, $variables = [])
+function renderPage($page_name)
 {
     $file = TPL_DIR . "/" . $page_name . ".tpl";
 
@@ -21,17 +21,13 @@ function renderPage($page_name, $variables = [])
         exit(ERROR_TEMPLATE_EMPTY);
     }
 
+    $variables = prepareVariables($page_name);
+    $templateContent = file_get_contents($file);
     // если переменных для подстановки не указано, просто
     // возвращаем шаблон как есть
-    if (empty($variables)) {
-        $templateContent = file_get_contents($file);
-    } else {
-        $templateContent = file_get_contents($file);
-
-        // заполняем значениями
+    if (!empty($variables)) {
         $templateContent = pasteValues($variables, $page_name, $templateContent);
     }
-
     return $templateContent;
 }
 
@@ -69,65 +65,8 @@ function pasteValues($variables, $page_name, $templateContent)
 function prepareVariables($page_name)
 {
     $vars = [];
-    switch ($page_name) {
-        case "news":
-            $vars["newsfeed"] = getNews();
-            $vars["test"] = 123;
-            break;
-        case "newspage":
-            $content = getNewsContent($_GET['id_news']);
-            $vars["news_title"] = $content["news_title"];
-            $vars["news_content"] = $content["news_content"];
-            break;
-        case "employees":
-            $vars["userlist"] = getEmployees();
-            $vars["title"] = "Список сотрудников";
-            break;
-        case "gallery":
-            $vars["title"] = "Галлерея";
-            $vars["render_image"] = getGallery();
-            //$vars["render_table_gallery"] = selectDB('gallery');
-            break;
-        case "image":
-            setIncrementViewsImage($_GET["id_gallery"]);
-            $vars["title"] = "Большая картинка";
-            $vars["big_image"] = getImage($_GET["id_gallery"]);
-            break;
-        case "calculator1":
-        case "calculator3":
-            if (isset($_POST["operand1"]) && isset($_POST["operand2"]) && ($_POST["operand1"] !== "" || $_POST["operand2"] !== "")) {
-                $vars["answer"] = getAnswer($_POST["operand1"], $_POST["operand2"], $_POST["operation"]);
-            } else {
-                $vars["answer"] = "Произведите операцию";
-            }
-            break;
-        case "reviews":
-            if (isset($_POST["name"]) && isset($_POST["text"]) && $_POST["name"] !== "" && $_POST["text"] !== "") {
-                $vars["response"] = addReview($_POST["name"], $_POST["text"]);
-            } else {
-                $vars["response"] = " ";
-            }
-
-            $vars["title"] = "Отзывы";
-            if (empty(getReviews())) {
-                $vars["reviews"] = "Добавте первый отзыв";
-            } else {
-                $vars["reviews"] = getReviews();
-            }
-            break;
-        case "goods":
-            $vars["title"] = "Товары";
-            $vars["render_products"] = getGoods();
-            break;
-        case "product":
-            $vars["title"] = "Страница товара";
-            $vars["render_product"] = getProduct($_GET["id_goods"]);
-            break;
-//        default:
-//            echo $page_name . "<br>";
-//            exit();
-    }
-
+    $functionName = "active" . ucfirst($page_name);
+    $vars = $functionName();
     return $vars;
 }
 
@@ -189,151 +128,3 @@ function _makeDir($dir, $is_root = true, $root = '')
     }
     return $root;
 }
-
-function getNews()
-{
-//    $sql = "select * from news";
-//    $news = getAssocResult($sql);
-    $news = selectDB('gallery');
-    return $news;
-}
-
-function getEmployees()
-{
-//    $sql = 'SELECT * FROM employee';
-//    $list = getAssocResult($sql);
-    $list = selectDB('employees');
-    return $list;
-}
-
-function getNewsContent($id_news)
-{
-    $id_news = (int)$id_news;
-
-    $sql = "SELECT * FROM news WHERE id_news = " . $id_news;
-    $news = getAssocResult($sql);
-
-    $result = [];
-    if (isset($news[0]))
-        $result[0] = $news[0];
-
-    return $result;
-}
-
-function getGallery()
-{
-    //$gallery = selectDB('gallery', ['id_gallery', 'name_gallery', 'dir_gallery', 'views_gallery']);
-    $sql = "SELECT * FROM gallery order by views_gallery desc";
-    $gallery = getAssocResult($sql);
-    return $gallery;
-}
-
-function setIncrementViewsImage($id_image)
-{
-    $id_image = (int)$id_image;
-    $sql = "SELECT name_gallery, dir_gallery, views_gallery FROM gallery WHERE id_gallery = " . $id_image;
-    $image = getAssocResult($sql);
-    $value = $image[0]["views_gallery"] + 1;
-    //$image[0]["views_gallery"]++;
-    updateDB("gallery", "views_gallery", $id_image, $value);
-}
-
-function getImage($id_image)
-{
-    $id_image = (int)$id_image;
-
-    $sql = "SELECT name_gallery, dir_gallery, views_gallery FROM gallery WHERE id_gallery = " . $id_image;
-    $image = getAssocResult($sql);
-
-    $result = [];
-    if (isset($image[0]))
-        $result[0] = $image[0];
-
-    return $result;
-}
-
-function getAnswer($operand1, $operand2, $operation)
-{
-    if ($operand1 == "") {
-        $operand1 = 0.0;
-    } else {
-        $operand1 = (float)$operand1;
-    }
-
-    if ($operand2 == "") {
-        $operand2 = 0.0;
-    } else {
-        $operand2 = (float)$operand2;
-    }
-
-    $result = 0.0;
-    switch ($operation) {
-        case '+':
-            $result = $operand1 + $operand2;
-            break;
-        case '-':
-            $result = $operand1 - $operand2;
-            break;
-        case '/':
-            if ($operand2 === 0.0) {
-                $result = "Ой-ой-ой, на нуль делить нельзя!";
-            } else {
-                $result = $operand1 / $operand2;
-            }
-            break;
-        case '*':
-            $result = $operand1 * $operand2;
-            break;
-    }
-
-    return $result;
-}
-
-function addReview($userName, $text)
-{
-    $result = false;
-    $response = "";
-
-    $db = getConnection();
-    $userName_string = mysqli_real_escape_string($db, (string)htmlspecialchars(strip_tags($userName)));
-    $text_string = mysqli_real_escape_string($db, (string)htmlspecialchars(strip_tags($text)));
-    $sql = "insert into reviews (user_name_reviews, text_reviews) values ('$userName_string', '$text_string')";
-    $result = executeQuery($sql, $db);
-
-    if ($result) {
-        $response = "Отзыв добавлен!";
-    } else {
-        $response = "Произошла ошибка, отзыв не добавлен.";
-    }
-
-    return $response;
-}
-
-function getReviews()
-{
-    $sql = "select * from reviews";
-    $result = getAssocResult($sql);
-    return $result;
-}
-
-function getGoods() {
-    $sql = "select * from goods";
-    $goods = getAssocResult($sql);
-    return $goods;
-}
-
-function getProduct($id_goods) {
-    $id_goods = (int)$id_goods;
-    $sql = "select * from goods where id_goods=".$id_goods;
-    $product = getAssocResult($sql);
-
-    $result = [];
-    if(isset($product[0])){
-        $result[0] = $product[0];
-    }
-
-    return $result;
-}
-?>
-
-
