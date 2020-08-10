@@ -1,0 +1,1 @@
+<p>&copy; Michese, {{YEAR}}</p>
