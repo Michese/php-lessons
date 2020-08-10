@@ -10,6 +10,8 @@ main
   margin: 0 calc(50% - 600px)
 
 footer
+  margin: 0 calc(50% - 700px)
+  text-align: center
   height: 100px
 
 .form
@@ -84,7 +86,7 @@ p
   display: flex
   flex-direction: column
 
-form.cart__item
+.cart__item
   border: magenta solid 2px
   display: flex
   justify-content: space-between
@@ -97,6 +99,30 @@ form.cart__item
 .cart__delete
   display: flex
   flex-direction: column
+
+.cart__status__circle
+  align-self: center
+  border: 1px solid #000000
+  border-radius: 50%
+  width: 30px
+  height: 30px
+
+.cart__status__circle.red
+  background-color: #FF0000
+
+.cart__status__circle.green
+  background-color: #00ff00
+
+.cart__status__circle.yellow
+  background-color: #ffff00
+
+.cart__status__circle.blue
+  background-color: #5adef5
+
+.name__goods
+  display: flex
+  flex-direction: column
+  align-items: center
 
 .menu
   display: flex

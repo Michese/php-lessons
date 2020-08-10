@@ -13,17 +13,6 @@ define('ENGINE_DIR', SITE_ROOT . '/engine');
 define('TPL_DIR', SITE_ROOT . '/templates');
 define('IMG_DIR', SITE_ROOT . '/img');
 
-define('SITE_TITLE', 'Урок 4');
+define('SITE_TITLE', 'My site');
 
-require_once(ENGINE_DIR . '/functions.php');
-require_once(ENGINE_DIR . '/db.php');
-require_once(ENGINE_DIR . '/employees.php');
-require_once(ENGINE_DIR . '/gallery.php');
-require_once(ENGINE_DIR . '/goods.php');
-require_once(ENGINE_DIR . '/index_engine.php');
-require_once(ENGINE_DIR . '/news.php');
-require_once(ENGINE_DIR . '/reviews.php');
-require_once(ENGINE_DIR . '/calculator.php');
-require_once(ENGINE_DIR . '/cart.php');
-require_once(ENGINE_DIR . '/register.php');
-require_once(ENGINE_DIR . '/account.php');
+require_once(ENGINE_DIR . '/templates.lib.php');
