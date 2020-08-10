@@ -22,10 +22,17 @@ window.addEventListener('load', () => {
             request.addEventListener("readystatechange", () => {
                 if(request.status === 200 && request.readyState === 4) {
                     let response = JSON.parse(request.responseText);
-                    const cartStatus = cartItem.querySelector(".cart__status__circle");
-                    cartStatus.className = "cart__status__circle";
-                    cartStatus.classList.add(response["color_new_status"]);
-                    cartStatus.title = response["name_new_status"];
+                    const answer = cartItem.querySelector(".answer");
+                    if(response.result) {
+                        const cartStatus = cartItem.querySelector(".cart__status__circle");
+                        cartStatus.className = "cart__status__circle";
+                        cartStatus.classList.add(response["color_new_status"]);
+                        cartStatus.title = response["name_new_status"];
+                        answer.innerHTML = "Статус успешно изменен!";
+                    } else {
+                        answer.innerHTML = "Что-то пошло не так ...";
+                    }
+
                 }
             })
 
@@ -44,12 +51,17 @@ window.addEventListener('load', () => {
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             request.addEventListener("readystatechange", () => {
                 if(request.status === 200 && request.readyState === 4) {
-
                     let response = JSON.parse(request.responseText);
-                    const cartStatus = cartItem.querySelector(".cart__status__circle");
-                    cartStatus.className = "cart__status__circle";
-                    cartStatus.classList.add(response["color_new_status"]);
-                    cartStatus.title = response["name_new_status"];
+                    const answer = cartItem.querySelector(".answer");
+                    if(response.result) {
+                        const cartStatus = cartItem.querySelector(".cart__status__circle");
+                        cartStatus.className = "cart__status__circle";
+                        cartStatus.classList.add(response["color_new_status"]);
+                        cartStatus.title = response["name_new_status"];
+                        answer.innerHTML = "Статус успешно изменен!";
+                    } else {
+                        answer.innerHTML = "Что-то пошло не так ...";
+                    }
                 }
             })
 
